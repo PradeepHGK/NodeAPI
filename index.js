@@ -1,10 +1,8 @@
 //#region Express 
 const express = require('express');
+var router = express.Router()
 var expressApp = express();
-const router = express.Router();
 //#endregion
-
-const parser = require('body-parser');
 
 //#region DB Connections
 const db = require('mysql');
@@ -14,6 +12,7 @@ var dbConnection = db.createConnection({
     password : '1405',
     database : 'cancer'
 })
+// db connection established
 
 dbConnection.connect((err) => {
     console.log('DB Connection Established')
@@ -21,43 +20,15 @@ dbConnection.connect((err) => {
 //#endregion
 
 
+const parser = require('body-parser');
+
 //Setting port number
 var portNo = process.env.PORT || 1405
 
-router.use('/api', router)
+expressApp.use(require('./Diseases'))
 
-//Event Listener
-
-
-
-// Enabling db connection
-
-//getting category list
-expressApp.get('/category', (req, res) => {
-    console.log('Get User')
-    // res.send('user list')
-    res.json({
-        "category": [
-            {
-                name: 'Lungs',
-                hospital: "",
-                contact: "",
-                Testimonials: ""
-
-            },
-            {
-                name: 'Nasopharel',
-                hospital: "",
-                contact: "",
-                Testimonials: ""
-            }
-        ]
-    })
+expressApp.listen(1405,()=> {
+    console.log('Express server Started');
 });
 
-
-expressApp.listen(portNo,()=> {
-    console.log('Express server Started' + dbConnection.threadId);
-});
-
-module.exports = {express:expressApp, parser: parser}
+module.exports = {express:expressApp, parser: parser, router:router}
