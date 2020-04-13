@@ -63,5 +63,4 @@ router.get('/disease', (req, res, err)=>{
         })
     }
 })
-    .post('/diseases/', (req, res))
 module.exports = router

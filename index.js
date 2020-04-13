@@ -3,6 +3,8 @@ const express = require('express');
 var router = express.Router()
 var expressApp = express();
 //#endregion
+const parser = require('body-parser');
+var portNo = process.env.PORT || 1405
 
 //#region DB Connections
 const db = require('mysql');
@@ -20,15 +22,16 @@ dbConnection.connect((err) => {
 //#endregion
 
 
-const parser = require('body-parser');
-
 //Setting port number
-var portNo = process.env.PORT || 1405
 
-expressApp.use(require('./Diseases'))
+expressApp.use('/disease', require('./routes/disease'))
+expressApp.use('/NatMed', require('./routes/naturalMedicine'))
+
+
+
 
 expressApp.listen(1405,()=> {
     console.log('Express server Started');
 });
 
-module.exports = {express:expressApp, parser: parser, router:router}
+module.exports = {express:expressApp, parser: parser, router:router, db: dbConnection}
