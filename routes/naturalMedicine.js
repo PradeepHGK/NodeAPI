@@ -1,15 +1,15 @@
 const express = require('express');
 var router = express.Router()
-
+// var dbConnection = require('./disease')
 
 //Getting natural remedies based on the dieases
 router
     .route('/medicine')
     .get((req, res)=>
     {
-        res.json({
-            status: 'Sucess'
-        })
+        // dbConnection.database.query('SELECT * from category', (err, rows, fields) => {
+        //     res.json(rows)
+        // })
     })
 
 

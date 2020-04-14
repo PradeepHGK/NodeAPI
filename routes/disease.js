@@ -2,6 +2,8 @@ const express = require('express');
 var router = express.Router()
 const multer = require('multer')
 
+var db = require('../Config/db.config')
+
 var multipart = require('connect-multiparty');
 var multipartMiddleware = multipart();
 
@@ -49,18 +51,11 @@ router.post('/projectData/Upload', (req, res, err) => {
 
 
 //Get list of cancer disease
-router.get('/disease', (req, res, err)=>{
-    if(err)
-    {
-        console.log("Error", err)
-    }
-    else
-    {
-        res.status(200)
-        res.json({
-            // get the list of disease and properties from DB
-
-        })
-    }
+router.get('/getlist', (req, res, err) => {
+    db.query('SELECT * from category', (err, rows, fields) => {
+        res.json(rows)
+    })
 })
+
 module.exports = router
+// module.exports = {router: router, database:database}
