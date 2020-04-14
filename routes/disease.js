@@ -57,5 +57,12 @@ router.get('/getlist', (req, res, err) => {
     })
 })
 
+router.get('/getlist/:categoryID', (req, res, err) => {
+    console.log(req.params.categoryID)
+    db.query('SELECT * FROM category WHERE category_id = ?', [req.params.categoryID], (err, rows, fields) => {
+        res.json(rows)
+    })
+})
+
 module.exports = router
 // module.exports = {router: router, database:database}
