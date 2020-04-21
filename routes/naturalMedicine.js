@@ -21,5 +21,4 @@ router
             MedicineID: req.params.MedID
         })
     })
- 
 module.exports = router

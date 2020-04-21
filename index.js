@@ -3,23 +3,23 @@ const express = require('express');
 var router = express.Router()
 var expressApp = express();
 //#endregion
+require('dotenv').config()
 
-var db = require('./Config/db.config')
 
 
 const bodyParser = require('body-parser');
-var portNo = process.env.PORT || 1405
-
+var portNo = process.env.APP_PORT
+expressApp.use(express.json())
 expressApp.use(bodyParser.json());
 expressApp.use(bodyParser.urlencoded({ extended: true }))
 
 
 //#region  Routing 
-expressApp.use('/disease', require('./routes/disease'))
+expressApp.use('/', require('./routes/disease'))
 expressApp.use('/natural', require('./routes/naturalMedicine'))
 //#endregion
 
-expressApp.listen(1405,()=> {
+expressApp.listen(portNo,()=> {
     console.log('Express server Started');
 });
 
