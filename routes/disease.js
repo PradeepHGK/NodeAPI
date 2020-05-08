@@ -28,17 +28,18 @@ var upload = multer({
     { name: 'Standalone', maxCount: 1 }
 ])
 
+//#region  Unity Testing Endpoint
 router.get('/projectData', (req, res) => {
     // console.log("ProjectData")
     res.json({
         ProjectName: 'ColumbiaCenter',
-        fbxurl: 'https://dl.dropboxusercontent.com/s/v1xzm2l597tqhvr/aj%40Rifle%20Punch.fbx?dl=0',
-        BuildAssetBundleOptions: 'UncompressedAssetBundle',
-        BuildTargets:[
-                'iOS',
-                'Android',
-                'WSAPlayer',
-                'Standalone'
+        fbxurl: 'https://zeblobstorage.blob.core.windows.net/zeblob/AutomateAssetbundle/LigneRoset_Kaschkasch_mat.skp',
+        BuildAssetBundleOptions: 'ChunkBasedCompression',
+        BuildTargets: [
+            'iOS',
+            'Android',
+            'WSAPlayer',
+            'Standalone'
         ],
         isDollhouseDisabled: false,
         isRealScaleDisabled: false,
@@ -55,63 +56,66 @@ router.post('/projectData/Upload', (req, res, err) => {
         })
     })
 })
-
+//#endregion
 
 //Get list of cancer disease
 router.get('/diseasedata', (req, res, err) => {
-    db.query('SELECT * from category', (err, rows, fields) => {
-        res.status(200).json(rows)
-    })
+    try {
+        db.query('SELECT * from disease', (err, rows, fields) => {
+            res.status(200).json(rows)
+        })
+    } catch (error) {
+
+    }
 })
 
-router.get('/diseasedata/:categoryID', (req, res, err) => {
-    db.query('SELECT * FROM category WHERE category_id = ?', [req.params.categoryID], (err, rows, fields) => {
+router.get('/diseasedata/:id', (req, res, err) => {
+    db.query('SELECT * FROM disease WHERE id = ?', [req.params.id], (err, rows, fields) => {
         res.status(200).json(rows)
     })
 })
 
 
 //Adding new diseases from the portal
-router.post('/addDisease/', (req, res, err)=>{
-    db.query(`INSERT INTO category(category_id, name, created_at) values(?, ?, ?)`, 
-    [
-        req.query.category_id,
-        req.query.name,  
-        req.query.created_at,
-    ], 
-    (err, rows, fields)=>{
-        if(err)
-            return res.status(500).json(err)
-        return res.json(rows);
-    })
+router.post('/addDisease/', (req, res, err) => {
+    db.query(`INSERT INTO disease(id, name, created_at) values(?, ?, ?)`,
+        [
+            req.query.id,
+            req.query.diseases,
+            req.query.created_at,
+        ],
+        (err, rows, fields) => {
+            if (err)
+                return res.status(500).json(err)
+            return res.json(rows);
+        })
 })
 
 
-router.put('/updateDisease', (req, res, err)=>{
-    db.query('update category set name = ? where category_id = ?', 
-    [
-        req.query.name,
-        req.query.category_id
-    ], 
-    (err, rows, fields)=>
-    {
-        if(err)
-            return res.status(500).json(err)
-        return res.json(rows).status(200)
-    })
+router.put('/updateDisease', (req, res, err) => {
+    db.query('update disease set diseases = ? where id = ?',
+        [
+            req.query.diseases,
+            req.query.id
+        ],
+        (err, rows, fields) => {
+            if (err)
+                return res.status(500).json(err)
+            return res.json(rows).status(200)
+        })
 })
 
 
-router.delete('/deletedisease', (req, res, err)=>{
-    db.query('delete from category where category_id = ?', 
-    [
-        req.query.category_id
-    ], 
-    (err, rows, fields)=>{
-        if(err)
-            return res.status(500).json(err)
-        return res.status(200).json(rows)
-    })
+router.delete('/deletedisease', (req, res, err) => {
+    db.query('delete from disease where id = ?',
+        [
+            req.query.id   //
+        ],
+        (err, rows, fields) => {
+            if (err)
+                return res.status(500).json(err)
+            return res.status(200).json(rows)
+        })
 })
 
 module.exports = router
