@@ -1,0 +1,10 @@
+BackEnd Developer Path 
+
+Learn these things:
+1. Socket.io
+2. Mongoose - For mongoDB. Make a basic CRUD application with it
+3. File Uploads
+4. ReST APIs
+5. GraphQL
+6. JWT Tokens concept
+7. Deployment on Heroku
