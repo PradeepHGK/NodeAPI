@@ -28,7 +28,7 @@ expressApp.use('/', require('./routes/disease'))
 expressApp.use('/natural', require('./routes/naturalMedicine'))
 //#endregion
 
-expressApp.listen(1405,()=> {
+expressApp.listen(portNo,()=> {
     console.log('Express server Started');
 });
 
